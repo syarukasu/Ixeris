@@ -1,7 +1,6 @@
 package me.decce.ixeris.gradle
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import dev.kikugie.stonecutter.build.StonecutterBuildExtension
-import java.nio.file.Files
 
 plugins {
     `java-library`
@@ -70,13 +69,6 @@ dependencies {
 
     implementation("me.decce.ixeris:core")
     shade("me.decce.ixeris:core")
-}
-
-fun fetchLatestChangelog() : String {
-    val str = Files.readString(layout.settingsDirectory.file("CHANGELOG.md").asFile.toPath())
-    val i = str.indexOf('\n') + 2
-    val r = str.indexOf("## ", i + 1)
-    return str.substring(i, r - 2)
 }
 
 fun supportedVersionFabric() : String {
@@ -197,7 +189,7 @@ publishMods {
     dryRun =
         (targetPublishLoader != "all" && targetPublishLoader != platform) ||
         (providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null && providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null)
-    changelog = fetchLatestChangelog()
+    changelog = providers.gradleProperty("releaseNotes").getOrElse("")
     displayName = "${prop("mod_name")} ${fullModVersion()}"
     modLoaders.add(prop("deps.platform"))
     if (prop("deps.platform") == "fabric") {

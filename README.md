@@ -63,3 +63,9 @@ Ixeris rewrites the FPS limiter in a hybrid way, sleeping precisely and starting
 - The **render thread** does everything the game normally does, except event polling.
 
 These two terms are synonymous in vanilla Minecraft.
+
+## Build
+
+This project uses Stonecutter for multiple Minecraft versions and loaders. Run `./gradlew buildAndCollect` to collect all artifacts in `build/libs`. For one target, use `./gradlew -Ptarget_versions=1.21.8 -Ptarget_loaders=fabric buildAndCollect`.
+
+For publishing, supply the release notes with `-PreleaseNotes="..."`; release history is maintained in Releases.
